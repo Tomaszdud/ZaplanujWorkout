@@ -282,7 +282,9 @@ class ModifyRecipe(View):
         request.session["field_bad"] = True
         return redirect("/recipe/modify/{}".format(id))
 
-
+class Registration(View):
+    def get(self,request):
+        return render(request,"registration.html")
 
 class Login(View):
     def get(self,request):
