@@ -10,12 +10,6 @@ from jedzonko.models import Recipe, Plan, DayName, RecipePlan
 from django.core.exceptions import ObjectDoesNotExist
 
 
-
-class IndexView(View):
-    def get(self, request):
-        ctx = {"actual_date": datetime.now()}
-        return render(request, "test.html", ctx)
-
 class About(View):
 
     def get(self, request):  
@@ -26,10 +20,6 @@ class Contact(View):
     def get(self, request):
         return render(request,"contact.html")
 
-class Main(View): 
-
-    def get(self, request):
-        return render(request,"index.html")
 
 class LandingPage(View):
     def get(self, request):
