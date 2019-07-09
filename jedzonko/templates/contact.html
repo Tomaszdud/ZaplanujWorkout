@@ -2,7 +2,7 @@
 {% block content %}
 
 <div id="after_submit"></div>
-<form id="contact_form" action="#" method="POST" enctype="multipart/form-data">
+<form id="contact_form" method="POST" enctype="multipart/form-data">
   <div>
     <label class="required" for="name">Twoje imię:</label><br />
     <input id="name" class="input" name="name" type="text" value="" size="30" /><br />
@@ -10,7 +10,7 @@
   </div>
   <div>
     <label class="required" for="email">Adres email:</label><br />
-    <input id="email" class="input" name="email" type="text" value="" size="30" /><br />
+    <input id="email" class="input" name="email" type="email    " value="" size="30" /><br />
     <span id="email_validation" class="error_message"></span>
   </div>
   <div>
@@ -20,6 +20,7 @@
   </div>
     
     <input id="submit_button" type="submit" value="Send email" />
+    {% csrf_token %}
 </form>
 
                     <div class="col">

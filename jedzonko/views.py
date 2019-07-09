@@ -8,13 +8,10 @@ from django.http import HttpResponse, HttpResponseForbidden
 from django.views import View
 from jedzonko.models import Recipe, Plan, DayName, RecipePlan
 from django.core.exceptions import ObjectDoesNotExist
-
-
-
-class IndexView(View):
-    def get(self, request):
-        ctx = {"actual_date": datetime.now()}
-        return render(request, "test.html", ctx)
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.contrib.auth.forms import UserCreationForm
 
 class About(View):
 
@@ -26,10 +23,20 @@ class Contact(View):
     def get(self, request):
         return render(request,"contact.html")
 
-class Main(View): 
+    def post(self,request):
+        msg = request.POST.get("message")
+        address_email = request.POST.get("email")
+        contact_user = request.POST.get("name")
 
-    def get(self, request):
-        return render(request,"index.html")
+        send_mail(
+            f"{address_email}",
+            f"Wiadomość od {contact_user}: {msg}",
+            "dudixxx100@gmail.com",
+            ['zuzia1997_13@o2.pl'],
+            fail_silently=False,
+        )
+        return render(request,"contact.html")
+
 
 class LandingPage(View):
     def get(self, request):
@@ -285,7 +292,28 @@ class ModifyRecipe(View):
 
 
 class Login(View):
+
     def get(self,request):
         return render(request,"login.html")
 
    # def post(self,request):
+
+
+
+class Registration(View):
+
+    def get(self,request):
+        form = UserCreationForm()
+        ctx = {"form":form}
+        return render(request, "registration.html", ctx)
+
+    def post(self,request):
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password1"]
+            new_user = User.objects.create_user(username = username, password = password)
+
+        ctx = {"form":form}
+        return render(request, "registration.html", ctx)
+
